@@ -2,8 +2,9 @@ import React from 'react'
 import TodoItem from './TodoItem'
 import TodoInput from './TodoInput'
 
-const urlListTasks = 'http://127.0.0.1:8000/api/all-tasks/'
+// const urlListTasks = 'http://127.0.0.1:8000/api/all-tasks/'
 const urlCreateTask = 'http://127.0.0.1:8000/api/task-create/'
+const usrUserTasksList = 'http://127.0.0.1:8000/api/auth/user-tasks/'
 
 class Todo extends React.Component{
     constructor(props){
@@ -14,6 +15,7 @@ class Todo extends React.Component{
                 id:null,
                 text:'',
                 done:false,
+                owner: this.props.user_id
             },
             todoList : [],
             editing: false,
@@ -58,8 +60,8 @@ class Todo extends React.Component{
     //   }
 
     fetchTasks(){
-        var url = urlListTasks
-        fetch(url, {
+        var url = usrUserTasksList
+        fetch(`${url}${this.props.username}/`, {
             method : "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -111,7 +113,7 @@ class Todo extends React.Component{
         e.preventDefault()
         const csrftoken = this.getCookie('csrftoken');
         const url = urlCreateTask
-        if(this.state.activeItem.text != ''){
+        if(this.state.activeItem.text !== ''){
             fetch(url, {
                 method:'POST',
                 headers:{
@@ -126,6 +128,7 @@ class Todo extends React.Component{
                         id:null,
                         text: '',
                         done: false,
+                        owner: this.props.user_id,
                     }
                 })
             }).catch(function(error){

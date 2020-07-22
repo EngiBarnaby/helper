@@ -73,10 +73,9 @@ body {
 
 .login-form {
   max-width: 600px;
-  margin: 100px auto;
   
   background-color: #fff;
 
-  justify-content: space-around;
+  justify-content: center;
   align-items: flex-start;
 }

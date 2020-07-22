@@ -16,11 +16,12 @@ class Login extends React.Component{
         .then(
           data => {
             localStorage.setItem('token', data.token);
-            this.props.userLogin(data.token);
+            this.props.userLogin(data.token, this.state.value.username, data.id);
           }
         )
         .catch( error => console.error(error))
       }
+
 
     handleChange = event => {
         const val = this.state.value
@@ -31,7 +32,7 @@ class Login extends React.Component{
     render(){
         const { username, password} = this.state.value
         return(
-            <div className='login-form'>
+            <div className='login-form container'>
                 <h2>Войти в аккаунт</h2>
                 <br/>
                 <input 
@@ -42,7 +43,7 @@ class Login extends React.Component{
                 />
                 <br/>
                 <input 
-                    placeholder="Имя пользователя"
+                    placeholder="Пароль"
                     onChange={this.handleChange}
                     name='password'
                     value={password}

@@ -1,15 +1,17 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+
+from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from api.models import Task
+
+from api.serializers import TaskSerializer
 
 class UserSerializer(serializers.ModelSerializer):
 
-    todos = serializers.PrimaryKeyRelatedField(many=True, queryset=Task.objects.all())
+    tasks = TaskSerializer(many=True, required=False, allow_null=True)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'todos',)
+        fields = ('username', 'email', 'password', 'tasks',)
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
